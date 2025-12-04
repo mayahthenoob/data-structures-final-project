@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis | Tower of Hanoi</title>
+    <link rel="stylesheet" href="towerofhanoi.css">
+</head>
+<body>
+    
+<header class="header">
+  <h1>Tower of Hanoi Analysis</h1>
+</header>
+
+<nav class="navbar">
+  <ul class="navbar-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="towerofhanoi.html">Tower Of Hanoi</a></li>
+    <li><a href="analysis.html">Big-O Analysis</a></li>
+  </ul>
+</nav>
+
+<div class="content-wrapper">
+  <section class="analysis">
+
+    <h2>Time and Space Complexity Analysis</h2>
+
+    <h3>1. Drag-and-Drop Game Logic</h3>
+    <p>
+      Each drag-and-drop move in the Tower of Hanoi interface performs:
+      <ul>
+        <li>Checking the top disk of a peg → <strong>O(1)</strong></li>
+        <li>Comparing sizes → <strong>O(1)</strong></li>
+        <li>Appending the disk in the DOM → <strong>O(1)</strong></li>
+      </ul>
+      Therefore each move is:
+      <strong>O(1) time, O(1) space.</strong>
+    </p>
+
+    <h3>2. Setup of the Game</h3>
+    <p>
+      Creating <em>n</em> disks and attaching event listeners loops over all disks:<br>
+      Time: <strong>O(n)</strong><br>
+      Space: <strong>O(n)</strong> (each disk stored in DOM)
+    </p>
+
+    <h3>3. Theoretical Tower of Hanoi Algorithm</h3>
+    <p>
+      Although the website uses manual drag-and-drop, the <em>mathematical</em> solution to Tower of Hanoi requires:
+      <ul>
+        <li>Minimum moves = <strong>2ⁿ − 1</strong></li>
+      </ul>
+      Therefore, the recursive algorithm has:<br>
+      <strong>Time Complexity: O(2ⁿ)</strong><br>
+      <strong>Space Complexity: O(n)</strong> (maximum depth of recursion)
+    </p>
+
+    <h3>Summary Table</h3>
+    <table border="1" cellpadding="10">
+      <tr><th>Operation</th><th>Time</th><th>Space</th></tr>
+      <tr><td>Setup Game (n disks)</td><td>O(n)</td><td>O(n)</td></tr>
+      <tr><td>User Move</td><td>O(1)</td><td>O(1)</td></tr>
+      <tr><td>Theoretical Hanoi Algorithm</td><td>O(2ⁿ)</td><td>O(n)</td></tr>
+    </table>
+
+  </section>
+</div>
+
+<footer class="footer">
+  <p>&copy; 2025 Tower of Hanoi Project</p>
+</footer>
+
+</body>
+</html>

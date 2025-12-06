@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Self-Played Tower of Hanoi</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 20px;
+    }
+
+    .controls {
+        margin: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background: #38bdf8;
+        color: black;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        background: #0ea5e9;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        gap: 80px;
+        margin-top: 40px;
+    }
+
+    .tower {
+        width: 160px;
+        height: 250px;
+        border-radius: 12px;
+        background: #1e293b;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        padding-bottom: 10px;
+        position: relative;
+    }
+
+    .tower::before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 220px;
+        background: #94a3b8;
+        bottom: 10px;
+    }
+
+    .disk {
+        height: 24px;
+        margin: 3px 0;
+        border-radius: 6px;
+        transition: all 0.5s ease;
+    }
+</style>
+</head>
+<body>
+
+<h1>Self-Played Tower of Hanoi</h1>
+
+<div class="controls">
+    <label>Disks: </label>
+    <input type="number" id="numDisks" min="1" max="8" value="4">
+    <button onclick="start()">Start</button>
+</div>
+
+<div class="container">
+    <div class="tower" id="A"></div>
+    <div class="tower" id="B"></div>
+    <div class="tower" id="C"></div>
+</div>
+
+<script>
+let towers = { A: [], B: [], C: [] };
+let moves = [];
+let speed = 600;
+
+function createDisks(n) {
+    towers = { A: [], B: [], C: [] };
+    document.getElementById("A").innerHTML = "";
+    document.getElementById("B").innerHTML = "";
+    document.getElementById("C").innerHTML = "";
+
+    for (let i = n; i >= 1; i--) {
+        towers.A.push(i);
+        let disk = document.createElement("div");
+        disk.className = "disk";
+        disk.style.width = (i * 28 + 20) + "px";
+        disk.style.background = `hsl(${i * 40}, 80%, 60%)`;
+        disk.dataset.size = i;
+        document.getElementById("A").appendChild(disk);
+    }
+}
+
+function hanoi(n, from, to, aux) {
+    if (n === 0) return;
+    hanoi(n - 1, from, aux, to);
+    moves.push([from, to]);
+    hanoi(n - 1, aux, to, from);
+}
+
+async function playMoves() {
+    for (let [from, to] of moves) {
+        let diskSize = towers[from].pop();
+        towers[to].push(diskSize);
+
+        let disk = document.querySelector(`#${from} .disk[data-size='${diskSize}']`);
+        document.getElementById(to).appendChild(disk);
+
+        await new Promise(r => setTimeout(r, speed));
+    }
+}
+
+function start() {
+    let n = parseInt(document.getElementById("numDisks").value);
+    moves = [];
+    createDisks(n);
+    hanoi(n, "A", "C", "B");
+    playMoves();
+}
+</script>
+
+</body>
+</html>
